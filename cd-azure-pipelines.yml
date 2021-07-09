@@ -1,19 +1,25 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+  batch: true
+  branches:
+    include:
+    - none
 
-pool:
-  vmImage: ubuntu-latest
+pr:
+  branches:
+    include:
+    - '*'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+resources:
+  repositories:
+    - repository: GodelTech
+      type: github
+      endpoint: 'godeltech'
+      name: 'GodelTech/AzureDevOps.Pipeline.Templates'
+      ref: 'refs/tags'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+extends:
+  template: '.NET Core/pull-request.yml@GodelTech'
+  parameters:
+    buildConfiguration: 'Release'
+    codeCoverageSettingsFullPath: 'CodeCoverage.runsettings'
+    restoreOnlyFromNuGetFeed: true
