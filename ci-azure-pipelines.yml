@@ -15,7 +15,7 @@ resources:
       type: github
       endpoint: 'godeltech'
       name: 'GodelTech/AzureDevOps.Pipeline.Templates'
-      ref: 'refs/tags/5.0.1'
+      ref: 'refs/tags/v5.0.1'
 
 extends:
   template: '.NET Core/pull-request.yml@GodelTech'
