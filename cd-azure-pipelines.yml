@@ -15,11 +15,13 @@ resources:
       type: github
       endpoint: 'godeltech'
       name: 'GodelTech/AzureDevOps.Pipeline.Templates'
-      ref: 'refs/tags'
+      ref: 'refs/heads/main'
 
 extends:
-  template: '.NET Core/pull-request.yml@GodelTech'
+  template: '.NET Core/function/pull-request.yml@GodelTech'
   parameters:
     buildConfiguration: 'Release'
     codeCoverageSettingsFullPath: 'CodeCoverage.runsettings'
     restoreOnlyFromNuGetFeed: true
+    checkWarnings: false
+    checkCoverage: false
