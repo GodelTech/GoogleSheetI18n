@@ -23,3 +23,5 @@ extends:
     buildConfiguration: 'Release'
     codeCoverageSettingsFullPath: 'CodeCoverage.runsettings'
     restoreOnlyFromNuGetFeed: true
+    checkWarnings: false
+    checkCoverage: false
