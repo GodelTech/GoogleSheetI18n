@@ -21,47 +21,47 @@ namespace GoogleSheetI18n.Api.Tests.Integration
             _sheets = await i18nClient.GetSheets(_spreadsheetId);
         }
 
-        [Test]
-        public async Task GetSheet_WhenLangIsEn_ReturnsEnglishData()
-        {
-            // arrange
-            var i18nLocalStore = new I18nLocalStore(System.IO.Path.GetRandomFileName());
-            await i18nLocalStore.SaveSheets(_sheets);
+        //[Test]
+        //public async Task GetSheet_WhenLangIsEn_ReturnsEnglishData()
+        //{
+        //    // arrange
+        //    var i18nLocalStore = new I18nLocalStore(System.IO.Path.GetRandomFileName());
+        //    await i18nLocalStore.SaveSheets(_sheets);
 
-            // act
-            var i18nSheet = await i18nLocalStore.GetSheet(_spreadsheetId, "Global");
+        //    // act
+        //    var i18nSheet = await i18nLocalStore.GetSheet(_spreadsheetId, "Global");
 
-            // assert
-            var objectTree = i18nSheet.GetTranslations("en");
+        //    // assert
+        //    var objectTree = i18nSheet.GetTranslations("en");
 
-            Assert.AreEqual("Home", objectTree.GetOrCreateScope("navbar")["home"].ToString());
-        }
+        //    Assert.AreEqual("Home", objectTree.GetOrCreateScope("navbar")["home"].ToString());
+        //}
 
-        [Test]
-        public async Task GetSheet_WhenSheetNameIsEmptyAndLangIsEn_ReturnsDataOfFirstSheet()
-        {
-            // arrange
-            var i18nLocalStore = new I18nLocalStore(System.IO.Path.GetRandomFileName());
-            await i18nLocalStore.SaveSheets(_sheets);
+        //[Test]
+        //public async Task GetSheet_WhenSheetNameIsEmptyAndLangIsEn_ReturnsDataOfFirstSheet()
+        //{
+        //    // arrange
+        //    var i18nLocalStore = new I18nLocalStore(System.IO.Path.GetRandomFileName());
+        //    await i18nLocalStore.SaveSheets(_sheets);
 
-            // act & assert
-            Assert.ThrowsAsync<ArgumentNullException>(
-                async () => await i18nLocalStore.GetSheet(_spreadsheetId, "")
-            );
-        }
+        //    // act & assert
+        //    Assert.ThrowsAsync<ArgumentNullException>(
+        //        async () => await i18nLocalStore.GetSheet(_spreadsheetId, "")
+        //    );
+        //}
 
-        [Test]
-        public async Task GetSheet_WhenSheetNameIsUnknown_ReturnsNull()
-        {
-            // arrange
-            var i18nLocalStore = new I18nLocalStore(System.IO.Path.GetRandomFileName());
-            await i18nLocalStore.SaveSheets(_sheets);
+        //[Test]
+        //public async Task GetSheet_WhenSheetNameIsUnknown_ReturnsNull()
+        //{
+        //    // arrange
+        //    var i18nLocalStore = new I18nLocalStore(System.IO.Path.GetRandomFileName());
+        //    await i18nLocalStore.SaveSheets(_sheets);
 
-            // act
-            var sheet = await i18nLocalStore.GetSheet(_spreadsheetId, "NonExistingSheetName");
+        //    // act
+        //    var sheet = await i18nLocalStore.GetSheet(_spreadsheetId, "NonExistingSheetName");
 
-            // assert
-            Assert.IsNull(sheet);
-        }
+        //    // assert
+        //    Assert.IsNull(sheet);
+        //}
     }
 }
