@@ -7,7 +7,7 @@ trigger:
 pr:
   branches:
     include:
-    - '*'
+    - 'main'
 
 resources:
   repositories:
@@ -23,5 +23,5 @@ extends:
     buildConfiguration: 'Release'
     codeCoverageSettingsFullPath: 'CodeCoverage.runsettings'
     restoreOnlyFromNuGetFeed: true
-    checkWarnings: true
-    checkCoverage: true
+    checkWarnings: false
+    checkCoverage: false
