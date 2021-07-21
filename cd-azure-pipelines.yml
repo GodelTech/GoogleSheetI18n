@@ -1,18 +1,18 @@
 trigger:
-- '*'
+- 'main'
 
 variables:
   repository: 'godeltech/GoogleSheetI18n'
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
-  displayName: Build image
+- stage: DockerBuild
+  displayName: Build and Push image
+  pool:
+      vmImage: ubuntu-latest
   jobs:
   - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
+    displayName: Build and Push image
     steps:
     - task: Docker@2
       displayName: Build an image
