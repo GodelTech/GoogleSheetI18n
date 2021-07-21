@@ -1,6 +1,8 @@
 trigger:
 - 'main'
 
+pr: none
+
 variables:
   repository: 'godeltech/GoogleSheetI18n'
   tag: '$(Build.BuildId)'
@@ -15,7 +17,7 @@ stages:
     displayName: Build and Push image
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build and Push an image
       inputs:
         containerRegistry: 'docker-hub'
         repository: '$(repository)'
