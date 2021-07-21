@@ -9,7 +9,7 @@ WORKDIR /src
 
 COPY ["GoogleSheetI18n.Api/GoogleSheetI18n.Api.csproj", "GoogleSheetI18n.Api/"]
 COPY ["GoogleSheetI18n.Common/GoogleSheetI18n.Common.csproj", "GoogleSheetI18n.Common/"]
-COPY ["GoogleSheetI18n.Common/GoogleSheetI18n.Infrastructure.csproj", "GoogleSheetI18n.Infrastructure/"]
+COPY ["GoogleSheetI18n.Infrastructure/GoogleSheetI18n.Infrastructure.csproj", "GoogleSheetI18n.Infrastructure/"]
 
 RUN dotnet restore "GoogleSheetI18n.Api/GoogleSheetI18n.Api.csproj"
 COPY . .
