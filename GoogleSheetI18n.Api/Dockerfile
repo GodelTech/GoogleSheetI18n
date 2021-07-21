@@ -6,27 +6,20 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-RUN apt-get update && \
-    apt-get install -y wget && \
-    apt-get install -y gnupg2 && \
-    wget -qO- https://deb.nodesource.com/setup_15.x | bash - && \
-    apt-get install -y build-essential nodejs
-COPY ["GoogleSheetI18n.Api.SimpleWebApi/GoogleSheetI18n.Api.SimpleWebApi.csproj", "GoogleSheetI18n.Api.SimpleWebApi/"]
-COPY ["GoogleSheetI18n/GoogleSheetI18n.Api.csproj", "GoogleSheetI18n/"]
-RUN dotnet restore "GoogleSheetI18n.Api.SimpleWebApi/GoogleSheetI18n.Api.SimpleWebApi.csproj"
+
+COPY ["GoogleSheetI18n.Api/GoogleSheetI18n.Api.csproj", "GoogleSheetI18n/GoogleSheetI18n.Api/"]
+COPY ["GoogleSheetI18n.Common/GoogleSheetI18n.Common.csproj", "GoogleSheetI18n/GoogleSheetI18n.Common/"]
+COPY ["GoogleSheetI18n.Common/GoogleSheetI18n.Infrastructure.csproj", "GoogleSheetI18n/GoogleSheetI18n.Infrastructure/"]
+
+RUN dotnet restore "GoogleSheetI18n/GoogleSheetI18n.Api/GoogleSheetI18n.Api.csproj"
 COPY . .
-WORKDIR "/src/GoogleSheetI18n.Api.SimpleWebApi"
-RUN dotnet build "GoogleSheetI18n.Api.SimpleWebApi.csproj" -c Release -o /app/build
+WORKDIR "/src/GoogleSheetI18n/GoogleSheetI18n.Api"
+RUN dotnet build "GoogleSheetI18n.Api.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "GoogleSheetI18n.Api.SimpleWebApi.csproj" -c Release -o /app/publish
-COPY ["GoogleSheetI18n.Api.SimpleWebApi/ClientApp", "/app/publish/ClientApp/"]
-WORKDIR "/app/publish/ClientApp/"
-RUN npm ci
-RUN npm run build
-
+RUN dotnet publish "GoogleSheetI18n.Api.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish ./
-ENTRYPOINT ["dotnet", "GoogleSheetI18n.Api.SimpleWebApi.dll"]
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "GoogleSheetI18n.Api.dll"]
