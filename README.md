@@ -26,11 +26,12 @@ word.analyze | Analyze | Analyse
 - [Google developer account](https://console.developers.google.com) to run the app against Google Sheets
 
 ## Quick Start
-In order to run i18n project few simple steps are required:
-- create a google account and [authenticating as a service account](https://cloud.google.com/docs/authentication/production)
+In order to run i18n project a few simple steps are required.
 
-### Backend part
-- copy your credentials and paste them into `GoogleSheetI18n.Api\credentials.json`
+### Backend part (API)
+1. Create a google service account following [authenticating as a service account](https://cloud.google.com/docs/authentication/production) manual
+
+2. Download the service account credentials file (e.g. `credentials.json`), which should look like the following:
 
 ```
   {
@@ -46,48 +47,48 @@ In order to run i18n project few simple steps are required:
         "client_x509_cert_url": ####
   }
 ```
-- point the path to this file in the `GoogleSheetI18n.Api\Properties\launchSettings.json`
+3. Update appropriate launch options' (which you're prefer to run) environment variables to use the service account credentials, e.g. if you use `IIS Express` option - update the following in `GoogleSheetI18n.Api\Properties\launchSettings.json`:
 
 ```
     "IIS Express": {
         "environmentVariables": {
-            "GOOGLE_APPLICATION_CREDENTIALS": "your-path"
+            "GOOGLE_APPLICATION_CREDENTIALS": "c:\\Downloads\\credentials.json"
         }
     }
 ```
-### Frontend part
 
-- from root run `npm i` to setup the environment
+### Sample Web client
 
-- start application
+1. Restore npm packages in `samples\WebClient` by running `npm install`
 
-  - from root of the repo run `npm start` to host and run the application
+2. Start the client by running `npm start` in the same folder. It will host and run the application
     > The application starts in development mode
     
     > The application will be available at http://localhost:3000
 
-## Build the app
+## Build the API
 There is no specia dependencies or caveats. So just restore Nuget packages before the build, and you should be fine.
 
-## Run the app
+## Run API for Production
 There are a few thing you should know before you start.
 
-We expect a valid Google Sheet ID in `SPREADSHEET_ID` environment variable.
+We fetch all the options from `GoogleSheetI18n\src\GoogleSheetI18n.Api\appsettings.json`, `GoogleSheetI18n.Api\Properties\launchSettings.json` files and/or environment variables
+
+We use Google Sheets as a storage, so we expect a valid Google Sheet ID in either:
+- `SpreadsheetId` value in `appsettings.json`; 
+OR 
+- `SPREADSHEET_ID` environment variable.
 
 We use [Google cloud (service) credentials](https://cloud.google.com/docs/authentication/production) for accessing Google Sheets, so we expect them to be provided to the app. There are a few options:
-- Via setting credentials encoded json into `GOOGLE_APPLICATION_CREDENTIALS_AS_JSON` environment variable;
-- Via setting path to file with credentials to `GOOGLE_APPLICATION_CREDENTIALS` environment variable;
+- Via setting path to file with credentials to `GOOGLE_APPLICATION_CREDENTIALS` environment variable; OR
+- Via setting credentials encoded json into `GOOGLE_APPLICATION_CREDENTIALS_AS_JSON` environment variable; OR
 - Via setting path to file with credentails to `CredentialsFilePath` variable in `appsettings.json`.
 
-We currently use local file system for backups (local cache) as the only option, so let us know the folder via `BACKUP_FOLDER_PATH` envronment variable.
+We currently use local file system for backups (local cache) as the only option, so let us know the folder via either:
+- `LocalStoreFolderPath` value in `appsettings.json`; OR
+- `BACKUP_FOLDER_PATH` environment variable.
 
-Check more options in `GoogleSheetI18n.Api\Properties\launchSettings.json`
-
-## Startup
-
-There's currently the only ASP.NET Core project to be run, which serves both API and static frontend app: `GoogleSheetI18n.Api.SimpleWebApi`.
-
-## Special thanks to contibutors
+## Special thanks to contributors
 
 - [Aliaksandr Khlebus](https://github.com/akhlebus)
 - [Olga Adasko](https://github.com/VolhaAdaska)
