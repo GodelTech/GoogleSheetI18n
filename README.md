@@ -1,16 +1,27 @@
-# Introduction 
-Many projects add support of i18n (internationalization) at some stage. There are multiple ways how engineers manage translations from implementation point of view, but translation teams often use Google Sheets for some reason. Engineers usually carry these translations on their own.
+# G-i18n introduction 
+Many projects have to add support of i18n (internationalization) at some stage. There are multiple ways how engineers manage translations from implementation point of view and in most of the case it's quite complicated setup and process as such.
 
-As software engineers, we decided to try using Google Sheets for translations directly, as the only source of truth. With caching, fallback, and hopefully no pain.
+## Core concept 
 
-This proof of concept uses the following Google Sheet document as the source: [Translations POC](https://docs.google.com/spreadsheets/d/156UC1_Y2mwhGfY7Y-8RDiNM75eavFwzxBFNP9emNTzc/edit)
+The G-i18n project proposes simple-to-set-up and easy-to-use approach to address the i18n need for any type of project - e.g web application, mobile app or desktop program. 
 
-Each tab represents a namespace, and expected to contain transtations in the following format:
+It bases its ideas on very well known GoogleSheets and REST API:
 
-ID | language-tag | other-language-tag | ...
+- In GoogleSheet we keep translations as key-value pairs and may control access to this file for all collaborators (developers, translators, POs etc.) via embedded mechanisms of GoogleSheets - thus we don't have to spend any time on building UI to provide restricted access to tranlation lookups.
+
+- REST API gives access to those key-value pairs, taking responsibility for parsing your GoogleSheets, caching data, implementing some fallback solutions.
+This simplifies integration into any type of application.
+
+## Sample data
+
+This proof of concept uses the following GoogleSheets document as the source: [Translations POC](https://docs.google.com/spreadsheets/d/156UC1_Y2mwhGfY7Y-8RDiNM75eavFwzxBFNP9emNTzc/edit).
+
+Each tab represents a namespace (e.g. a page of the website), and expected to contain translations to different languages as columns in the following format:
+
+Key | language-1 | language-2 | ...
 -|-|-|-
-some.id | Some translation | Some other translation | ... 
-another.id | Another translation | Another translation | ...
+label1.id | language-1 translation | language-2 translation | ... 
+label2.id | language-1 translation | language-2 translation | ...
 
 For example:
 
@@ -21,14 +32,16 @@ word.flavor | Flavor | Flavour
 word.analyze | Analyze | Analyse
 
 # Getting Started
+
 ## Prereqisites
-- [.NET 5.0 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) to build the app
+- [.NET 5.0 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) to build the G-i18n tool (namely REST API)
 - [Google developer account](https://console.developers.google.com) to run the app against Google Sheets
+- "docker" if you want to build a docker image and run it within docker container
 
 ## Quick Start
-In order to run i18n project a few simple steps are required.
 
-### Backend part (API)
+In order to run the G-i18n project a few simple steps are required.
+
 1. Create a google service account following [authenticating as a service account](https://cloud.google.com/docs/authentication/production) manual
 
 2. Download the service account credentials file (e.g. `credentials.json`), which should look like the following:
@@ -56,20 +69,29 @@ In order to run i18n project a few simple steps are required.
         }
     }
 ```
+4. Build the API and run it. There are no special dependencies or caveats so just restore Nuget packages before the build, and you should be fine.
 
-### Sample Web client
+# Docker support
+
+Alternatively, you may want to build the docker image of the tool and run it as docker container instead. To do that you will need few commands mentioned below:
+
+> docker build .
+
+> docker run 
+
+
+# Sample Web client
 
 1. Restore npm packages in `samples\WebClient` by running `npm install`
 
-2. Start the client by running `npm start` in the same folder. It will host and run the application
-    > The application starts in development mode
-    
-    > The application will be available at http://localhost:3000
+2. Start the client by running `npm start` in the same folder. It will host and run the application in development mode at http://localhost:3000.
 
-## Build the API
-There is no specia dependencies or caveats. So just restore Nuget packages before the build, and you should be fine.
+3. Or use docker-compose
 
-## Run API for Production
+> docker-compose up
+
+
+# Production use notes
 There are a few thing you should know before you start.
 
 We fetch all the options from `GoogleSheetI18n\src\GoogleSheetI18n.Api\appsettings.json`, `GoogleSheetI18n.Api\Properties\launchSettings.json` files and/or environment variables
@@ -88,7 +110,7 @@ We currently use local file system for backups (local cache) as the only option,
 - `LocalStoreFolderPath` value in `appsettings.json`; OR
 - `BACKUP_FOLDER_PATH` environment variable.
 
-## Special thanks to contributors
+# Special thanks to contributors
 
 - [Aliaksandr Khlebus](https://github.com/akhlebus)
 - [Olga Adasko](https://github.com/VolhaAdaska)
