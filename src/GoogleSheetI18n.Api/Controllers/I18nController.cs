@@ -39,7 +39,6 @@ namespace GoogleSheetI18n.Api.Controllers
         }
 
         [HttpPost("reload-local-store")]
-        [ClaimRequirement("i18n-admin", "")]
         public async Task ReloadLocalStore()
         {
             var newSheets = await _i18nGoogleClient.GetSheets(_i18nOptions.SpreadsheetId);
