@@ -23,4 +23,6 @@ stages:
         repository: '$(repository)'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
+        tags: |
+          '$(tag)'
+          latest
