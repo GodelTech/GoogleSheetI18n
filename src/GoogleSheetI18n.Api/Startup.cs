@@ -1,12 +1,14 @@
 using GoogleSheetI18n.Api.IoC;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace GoogleSheetI18n.Api.SimpleWebApi
+namespace GoogleSheetI18n.Api
 {
     public class Startup
     {
@@ -42,7 +44,14 @@ namespace GoogleSheetI18n.Api.SimpleWebApi
             }
             else
             {
-                app.UseExceptionHandler();
+                app.UseExceptionHandler(c => c.Run(async context =>
+                {
+                    var exception = context.Features
+                        .Get<IExceptionHandlerPathFeature>()
+                        .Error;
+                    var response = new { error = exception.Message };
+                    await context.Response.WriteAsJsonAsync(response);
+                }));
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
