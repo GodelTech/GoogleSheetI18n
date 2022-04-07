@@ -73,12 +73,25 @@ In order to run the G-i18n project a few simple steps are required.
 
 # Docker support
 
-Alternatively, you may want to build the docker image of the tool and run it as docker container instead. To do that you will need few commands mentioned below:
+## Pull and run
+
+You may want to just pull and run a Docker image. To achieve that run the following commangs:
+
+> docker pull docker pull godeltech/googlesheeti18n:3661
+
+*where `3661` is the desired tag at [Docker Hub](https://hub.docker.com/r/godeltech/googlesheeti18n/tags)
+
+> docker run -i -e LOCAL_STORE_PATH="local-store" -e SPREADSHEET_ID="156UC1_Y2mwhGfY7Y-8RDiNM75eavFwzxBFNP9emNTzc" -e GOOGLE_APPLICATION_CREDENTIALS_AS_JSON=’{   \"type\": \"service_account\", ... }’ -e ASPNETCORE_ENVIRONMENT="Development" -p 8080:80 godeltech/googlesheeti18n:3661
+
+*where `GOOGLE_APPLICATION_CREDENTIALS_AS_JSON`'s value is your personal full Google Application Credentials JSON (escaped, e.g. with double quotes `"` look like `\"`)
+
+## Build and run
+
+Alternatively, you may want to build the docker image of the tool locally instead. To do that you will need a few commands mentioned below:
 
 > docker build .
 
-> docker run 
-
+> docker run -i -e LOCAL_STORE_PATH="local-store" -e SPREADSHEET_ID="156UC1_Y2mwhGfY7Y-8RDiNM75eavFwzxBFNP9emNTzc" -e GOOGLE_APPLICATION_CREDENTIALS_AS_JSON=’{   \"type\": \"service_account\", ... }’ -e ASPNETCORE_ENVIRONMENT="Development" -p 8080:80
 
 # Sample Web client
 
