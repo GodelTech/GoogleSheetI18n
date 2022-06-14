@@ -44,7 +44,9 @@
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/",
-    "babel": "./node_modules/.bin/babel --extensions .babelrc src/**/*.{js,jsx,ts,tsx} --source-maps inline"
+    "babel": "./node_modules/.bin/babel --extensions .babelrc src/**/*.{js,jsx,ts,tsx} --source-maps inline",
+    "ci:build:stage:azure": "cross-env-shell REACT_APP_API_URL=\"https://api-i18n-stage.azurewebsites.net\" \"npm run build\"",
+    "ci:deploy:stage:azure": "cd build && az webapp up --html --name app-i18n-stage --resource-group i18n-demo-rg --plan app-i18n-stage-asp --sku FREE --location westeurope"
   },
   "browserslist": {
     "production": [
