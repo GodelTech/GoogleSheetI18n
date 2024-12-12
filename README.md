@@ -1,3 +1,9 @@
+# GoogleSheetI18n
+Docker image: https://hub.docker.com/r/godeltech/googlesheeti18n
+
+# Description
+The G-i18n project is designed to simplify internationalization (i18n) for various types of projects, such as web applications, mobile apps, and desktop programs. It utilizes Google Sheets to manage translations as key-value pairs and provides a REST API for accessing these translations, making integration straightforward and user-friendly
+
 # G-i18n introduction 
 Many projects have to add support of i18n (internationalization) at some stage. There are multiple ways how engineers manage translations from implementation point of view and in most of the case it's quite complicated setup and process as such.
 
@@ -128,3 +134,6 @@ We currently use local file system for backups (local cache) as the only option,
 - [Aliaksandr Khlebus](https://github.com/akhlebus)
 - [Olga Adasko](https://github.com/VolhaAdaska)
 - [Dima Shubkin](https://github.com/watby)
+
+# License
+This project is licensed under the MIT License. See the LICENSE file for more details.
